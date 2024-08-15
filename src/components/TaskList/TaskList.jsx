@@ -2,16 +2,22 @@ import React, { Component } from "react";
 import style from "./TaskList.module.css";
 
 class TaskList extends Component {
-  static tasks = [
-    { id: 1, text: "Прочитати конспект" },
-    { id: 2, text: "Написати додаток" },
-    { id: 3, text: "Перевірити роботу" },
-    { id: 4, text: "Відправити дз" },
-  ];
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: [
+        { id: 1, text: "Прочитати конспект" },
+        { id: 2, text: "Написати додаток" },
+        { id: 3, text: "Перевірити роботу" },
+        { id: 4, text: "Відправити дз" },
+      ],
+    };
+  }
 
   deleteTask = (id) => {
-    TaskList.tasks = TaskList.tasks.filter((task) => task.id !== id);
-    this.forceUpdate();
+    this.setState((prevState) => ({
+      tasks: prevState.tasks.filter((task) => task.id !== id),
+    }));
   };
 
   render() {
@@ -19,7 +25,7 @@ class TaskList extends Component {
       <div>
         <h2 className={style.task__title}>Список завдань:</h2>
         <ul className={style.task__list}>
-          {TaskList.tasks.map((task) => (
+          {this.state.tasks.map((task) => (
             <li className={style.task__item} key={task.id}>
               {task.text}
               <button
